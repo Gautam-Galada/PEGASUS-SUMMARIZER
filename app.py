@@ -15,8 +15,8 @@ import splitter
 
 
 
-tok = PegasusTokenizer.from_pretrained('C:/Users/prash/Desktop/SMA/SMA/models')
-config = AutoConfig.from_pretrained('C:/Users/prash/Desktop/SMA/SMA/models')
+tok = PegasusTokenizer.from_pretrained('models')
+config = AutoConfig.from_pretrained('models')
 dummy_model = PegasusForConditionalGeneration(config)
 
 
@@ -24,15 +24,16 @@ quantized_model = torch.quantization.quantize_dynamic(
     dummy_model, {torch.nn.Linear}, dtype=torch.qint8
 )
 
-quantized_state_dict = torch.load('C:/Users/prash/Desktop/SMA/SMA/models/pegasus-quantized.h5')
+#quantization code is availabe in a different repo
+quantized_state_dict = torch.load('pegasus-quantized.h5')
 quantized_model.load_state_dict(quantized_state_dict)
 
-
+#if you want to run the summarizer
 app = Flask(__name__)
 run_with_ngrok(app)
 
-main_dir = "C:/Users/prash/Desktop/SMA/SMA/paras"
-filename = "C:/Users/prash/Desktop/SMA/SMA/test.txt"
+main_dir = ""
+filename = "test.txt" #input file
 
 def preparing_transcript(text):
 
@@ -51,7 +52,7 @@ def preparing_transcript(text):
 
     if n<7000:
         print("a")
-        AR = open('C:/Users/prash/Desktop/SMA/SMA/test.txt', 'r').read()
+        AR = open('test.txt', 'r').read()
         batch = tok.prepare_seq2seq_batch(src_texts=[AR], truncation=True, padding='longest', return_tensors='pt')
         gen = quantized_model.generate(**batch)
         summary: List[str] = tok.batch_decode(gen, skip_special_tokens=True)
@@ -61,15 +62,15 @@ def preparing_transcript(text):
     elif 7000<n<14000:
         print("b")
         n_words = (len(transcript.split())//1)
-        input = 'C:/Users/prash/Desktop/SMA/SMA/test.txt'
-        output = 'C:/Users/prash/Desktop/SMA/SMA/paras'
+        input = 'test.txt'
+        output = ''
         pr = True
         splitter.splitter(input,output,n_words,pr)
 
         print(n_words)
 
-        AR1 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split0.txt', 'r').read()
-        AR2 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split1.txt', 'r').read()
+        AR1 = open('test_split0.txt', 'r').read()
+        AR2 = open('test_split1.txt', 'r').read()
 
 
         batch1 = tok.prepare_seq2seq_batch(src_texts=[AR1], truncation=True, padding='longest', return_tensors='pt')
@@ -88,16 +89,16 @@ def preparing_transcript(text):
     elif 14000<n<21000:
         print("c")
         n_words = (len(transcript.split())//2)
-        input = 'C:/Users/prash/Desktop/SMA/SMA/test.txt'
-        output = 'C:/Users/prash/Desktop/SMA/SMA/paras'
+        input = 'test.txt'
+        output = ''
         pr = True
         splitter.splitter(input,output,n_words,pr)
 
         print(n_words)
 
-        AR1 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split0.txt', 'r').read()
-        AR2 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split1.txt', 'r').read()
-        AR3 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split2.txt', 'r').read()
+        AR1 = open('test_split0.txt', 'r').read()
+        AR2 = open('test_split1.txt', 'r').read()
+        AR3 = open('test_split2.txt', 'r').read()
 
 
         batch1 = tok.prepare_seq2seq_batch(src_texts=[AR1], truncation=True, padding='longest', return_tensors='pt')
@@ -119,17 +120,17 @@ def preparing_transcript(text):
     elif 21000<n<28000:
         print("d")
         n_words = (len(transcript.split())//3)
-        input = 'C:/Users/prash/Desktop/SMA/SMA/test.txt'
-        output = 'C:/Users/prash/Desktop/SMA/SMA/paras'
+        input = 'test.txt'
+        output = ''
         pr = True
         splitter.splitter(input,output,n_words,pr)
 
         print(n_words)
 
-        AR1 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split0.txt', 'r').read()
-        AR2 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split1.txt', 'r').read()
-        AR3 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split2.txt', 'r').read()
-        AR4 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split3.txt', 'r').read()
+        AR1 = open('test_split0.txt', 'r').read()
+        AR2 = open('test_split1.txt', 'r').read()
+        AR3 = open('test_split2.txt', 'r').read()
+        AR4 = open('test_split3.txt', 'r').read()
 
         batch1 = tok.prepare_seq2seq_batch(src_texts=[AR1], truncation=True, padding='longest', return_tensors='pt')
         batch2 = tok.prepare_seq2seq_batch(src_texts=[AR2], truncation=True, padding='longest', return_tensors='pt')
@@ -151,18 +152,18 @@ def preparing_transcript(text):
     elif 35000<n<42000:
         print("e")
         n_words = (len(transcript.split())//4)
-        input = 'C:/Users/prash/Desktop/SMA/SMA/test.txt'
-        output = 'C:/Users/prash/Desktop/SMA/SMA/paras'
+        input = 'test.txt'
+        output = ''
         pr = True
         splitter.splitter(input,output,n_words,pr)
 
         print(n_words)
 
-        AR1 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split0.txt', 'r').read()
-        AR2 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split1.txt', 'r').read()
-        AR3 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split2.txt', 'r').read()
-        AR4 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split3.txt', 'r').read()
-        AR5 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split4.txt', 'r').read()
+        AR1 = open('test_split0.txt', 'r').read()
+        AR2 = open('test_split1.txt', 'r').read()
+        AR3 = open('test_split2.txt', 'r').read()
+        AR4 = open('test_split3.txt', 'r').read()
+        AR5 = open('test_split4.txt', 'r').read()
 
         batch1 = tok.prepare_seq2seq_batch(src_texts=[AR1], truncation=True, padding='longest', return_tensors='pt')
         batch2 = tok.prepare_seq2seq_batch(src_texts=[AR2], truncation=True, padding='longest', return_tensors='pt')
@@ -187,19 +188,19 @@ def preparing_transcript(text):
     else:
         print("f")
         n_words = (len(transcript.split())//5)
-        input = 'C:/Users/prash/Desktop/SMA/SMA/test.txt'
-        output = 'C:/Users/prash/Desktop/SMA/SMA/paras'
+        input = 'test.txt'
+        output = ''
         pr = True
         splitter.splitter(input,output,n_words,pr)
 
         print(n_words)
 
-        AR1 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split0.txt', 'r').read()
-        AR2 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split1.txt', 'r').read()
-        AR3 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split2.txt', 'r').read()
-        AR4 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split3.txt', 'r').read()
-        AR5 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split4.txt', 'r').read()
-        AR6 = open('C:/Users/prash/Desktop/SMA/SMA/paras/test_split5.txt', 'r').read()
+        AR1 = open('test_split0.txt', 'r').read()
+        AR2 = open('test_split1.txt', 'r').read()
+        AR3 = open('test_split2.txt', 'r').read()
+        AR4 = open('test_split3.txt', 'r').read()
+        AR5 = open('test_split4.txt', 'r').read()
+        AR6 = open('test_split5.txt', 'r').read()
 
 
         batch1 = tok.prepare_seq2seq_batch(src_texts=[AR1], truncation=True, padding='longest', return_tensors='pt')
